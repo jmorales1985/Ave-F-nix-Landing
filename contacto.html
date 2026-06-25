@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto | Inversiones Ave Fénix</title>
+  <meta name="description" content="Contáctenos en Inversiones Ave Fénix. Staffing profesional en Costa Rica." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #c9a84c;
+      --gold-light:  #e8c96a;
+      --gold-dark:   #a07830;
+      --bg-deep:     #0a0a0a;
+      --bg-card:     #111111;
+      --bg-hover:    #1a1a1a;
+      --text-main:   #f0e6d0;
+      --text-muted:  #8a7a60;
+      --border:      rgba(201,168,76,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.45rem 1.2rem;
+      border-radius: 2px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--bg-deep); }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 9rem 2.5rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      max-width: 540px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+    .divider-gold {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 2rem auto;
+    }
+
+    /* ─── CONTACT GRID ─── */
+    .contact-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .contact-section { grid-template-columns: 1fr; }
+    }
+
+    /* ─── DEPARTMENT CARDS ─── */
+    .dept-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .dept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .dept-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.35s ease;
+    }
+    .dept-card:hover { border-color: rgba(201,168,76,0.4); transform: translateX(4px); }
+    .dept-card:hover::before { transform: scaleY(1); }
+
+    .dept-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .dept-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1.1rem;
+    }
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .contact-list li {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .contact-list a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 400;
+      transition: color 0.25s;
+      word-break: break-all;
+    }
+    .contact-list a:hover { color: var(--gold-light); }
+    .icon-mail {
+      flex-shrink: 0;
+      width: 16px; height: 16px;
+      opacity: 0.55;
+    }
+
+    /* ─── FORM PANEL ─── */
+    .form-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2.2rem 2rem;
+      position: sticky; top: 90px;
+    }
+    .form-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+    .form-panel p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+      line-height: 1.6;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+    }
+    .form-group select option { background: var(--bg-deep); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.85rem 1.5rem;
+      border-radius: 2px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, transform 0.2s;
+    }
+    .btn-submit:hover {
+      background: var(--gold);
+      color: var(--bg-deep);
+      transform: translateY(-1px);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 1.5rem 0 0.5rem;
+    }
+    .form-success .check {
+      font-size: 2rem; margin-bottom: 0.7rem;
+    }
+    .form-success p {
+      color: var(--gold); font-size: 0.9rem; margin-bottom: 0;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+    .hero h1      { animation: fadeUp 0.6s 0.12s ease both; }
+    .hero p       { animation: fadeUp 0.6s 0.22s ease both; }
+    .divider-gold { animation: fadeUp 0.6s 0.3s ease both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Ave Fénix</a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Servicios</a></li>
+      <li><a href="index.html#process">Proceso</a></li>
+      <li><a href="index.html#why">Nosotros</a></li>
+      <li><a href="contacto.html" style="color: var(--gold);">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="mailto:ccascante@inversionesavefenix.com">Consulta Gratis</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-eyebrow">Estamos para servirle</span>
+    <h1>Hablemos sobre su <span>próximo talento</span></h1>
+    <p>Nuestro equipo está disponible para atender sus necesidades de staffing profesional en Costa Rica.</p>
+    <div class="divider-gold"></div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="contact-section">
+
+    <!-- LEFT: Department cards -->
+    <div class="dept-stack">
+
+      <!-- Gerencia -->
+      <div class="dept-card">
+        <div class="dept-label">Área</div>
+        <div class="dept-name">Gerencia General</div>
+        <ul class="contact-list">
+          <li>
+            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <a href="mailto:ccascante@inversionesavefenix.com">ccascante@inversionesavefenix.com</a>
+          </li>
+          <li>
+            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <a href="mailto:nrodriguez@inversionesavefenix.com">nrodriguez@inversionesavefenix.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Reclutamiento -->
+      <div class="dept-card">
+        <div class="dept-label">Área</div>
+        <div class="dept-name">Reclutamiento</div>
+        <ul class="contact-list">
+          <li>
+            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <a href="mailto:vmendez@inversionesavefenix.com">vmendez@inversionesavefenix.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tecnología -->
+      <div class="dept-card">
+        <div class="dept-label">Área</div>
+        <div class="dept-name">Tecnología</div>
+        <ul class="contact-list">
+          <li>
+            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <a href="mailto:jmorales@inversionesavefenix.com">jmorales@inversionesavefenix.com</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Contact form -->
+    <div class="form-panel">
+      <h2>Envíenos un mensaje</h2>
+      <p>Le responderemos a la brevedad posible.</p>
+
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Su nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="empresa">Empresa</label>
+            <input type="text" id="empresa" name="empresa" placeholder="Opcional" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="correo@empresa.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="area">Área de contacto</label>
+          <select id="area" name="area" required>
+            <option value="" disabled selected>Seleccione un área</option>
+            <option value="gerencia">Gerencia General</option>
+            <option value="reclutamiento">Reclutamiento</option>
+            <option value="tecnologia">Tecnología</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Cuéntenos en qué podemos ayudarle..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar mensaje</button>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <div class="check">🔥</div>
+        <p>Mensaje recibido. Le contactaremos pronto.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-logo" href="index.html">Inversiones Ave Fénix S.A.</a>
+    <span>Alajuela, Costa Rica</span>
+    <span>© 2025 Inversiones Ave Fénix. Todos los derechos reservados.</span>
+  </footer>
+
+  <script>
+    // Routing: select -> mailto
+    const areaEmailMap = {
+      gerencia:       'ccascante@inversionesavefenix.com',
+      reclutamiento:  'vmendez@inversionesavefenix.com',
+      tecnologia:     'jmorales@inversionesavefenix.com',
+    };
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre   = document.getElementById('nombre').value.trim();
+      const empresa  = document.getElementById('empresa').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const area     = document.getElementById('area').value;
+      const mensaje  = document.getElementById('mensaje').value.trim();
+
+      if (!nombre || !email || !area || !mensaje) return;
+
+      const to      = areaEmailMap[area] || 'ccascante@inversionesavefenix.com';
+      const subject = encodeURIComponent(`Consulta de ${nombre}${empresa ? ' — ' + empresa : ''}`);
+      const body    = encodeURIComponent(
+        `Nombre: ${nombre}\n` +
+        `${empresa ? 'Empresa: ' + empresa + '\n' : ''}` +
+        `Correo: ${email}\n\n` +
+        `${mensaje}`
+      );
+
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+      // Show success state
+      this.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
