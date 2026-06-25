@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contacto | Inversiones Ave Fénix</title>
-  <meta name="description" content="Contáctenos en Inversiones Ave Fénix. Staffing profesional en Costa Rica." />
+  <meta name="description" content="Contáctenos en Inversiones Ave Fénix. Staffing profesional en América y el Caribe." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -334,7 +334,7 @@
   <section class="hero">
     <span class="hero-eyebrow">Estamos para servirle</span>
     <h1>Hablemos sobre su <span>próximo talento</span></h1>
-    <p>Nuestro equipo está disponible para atender sus necesidades de staffing profesional en Costa Rica.</p>
+    <p>Nuestro equipo está disponible para atender sus necesidades de staffing profesional en América y el Caribe.</p>
     <div class="divider-gold"></div>
   </section>
 
@@ -343,22 +343,6 @@
 
     <!-- LEFT: Department cards -->
     <div class="dept-stack">
-
-      <!-- Gerencia -->
-      <div class="dept-card">
-        <div class="dept-label">Área</div>
-        <div class="dept-name">Gerencia General</div>
-        <ul class="contact-list">
-          <li>
-            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-            <a href="mailto:ccascante@inversionesavefenix.com">ccascante@inversionesavefenix.com</a>
-          </li>
-          <li>
-            <svg class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-            <a href="mailto:nrodriguez@inversionesavefenix.com">nrodriguez@inversionesavefenix.com</a>
-          </li>
-        </ul>
-      </div>
 
       <!-- Reclutamiento -->
       <div class="dept-card">
@@ -412,7 +396,6 @@
           <label for="area">Área de contacto</label>
           <select id="area" name="area" required>
             <option value="" disabled selected>Seleccione un área</option>
-            <option value="gerencia">Gerencia General</option>
             <option value="reclutamiento">Reclutamiento</option>
             <option value="tecnologia">Tecnología</option>
           </select>
@@ -437,14 +420,12 @@
   <!-- FOOTER -->
   <footer>
     <a class="footer-logo" href="index.html">Inversiones Ave Fénix S.A.</a>
-    <span>Alajuela, Costa Rica</span>
     <span>© 2025 Inversiones Ave Fénix. Todos los derechos reservados.</span>
   </footer>
 
   <script>
     // Routing: select -> mailto
     const areaEmailMap = {
-      gerencia:       'ccascante@inversionesavefenix.com',
       reclutamiento:  'vmendez@inversionesavefenix.com',
       tecnologia:     'jmorales@inversionesavefenix.com',
     };
@@ -459,7 +440,7 @@
 
       if (!nombre || !email || !area || !mensaje) return;
 
-      const to      = areaEmailMap[area] || 'ccascante@inversionesavefenix.com';
+      const to      = areaEmailMap[area] || 'vmendez@inversionesavefenix.com';
       const subject = encodeURIComponent(`Consulta de ${nombre}${empresa ? ' — ' + empresa : ''}`);
       const body    = encodeURIComponent(
         `Nombre: ${nombre}\n` +
