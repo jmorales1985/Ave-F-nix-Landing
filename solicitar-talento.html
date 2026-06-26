@@ -446,7 +446,7 @@
   // CONFIGURACIÓN GOOGLE SHEETS
   // Pegue aquí la URL de su Apps Script deployment
   // ─────────────────────────────────────────────
-  const SHEETS_URL = 'https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwsaBhXea4Z3njyPqsveKDBPz12EdRLDc0HJqlso2teHnqt_Kp0LWa_qK-MnVdkSN8r/exec';
   // ─────────────────────────────────────────────
 
   function showToast(msg) {
@@ -510,15 +510,15 @@
     };
 
     try {
-      // Google Apps Script no acepta Content-Type: application/json en modo no-cors
-      // usamos no-cors + FormData workaround vía JSON en body de texto plano
-      const res = await fetch(SHEETS_URL, {
+      // no-cors es necesario para Apps Script desde el navegador
+      // con no-cors la respuesta es "opaque" (no se puede leer) pero el dato SÍ llega a Sheets
+      await fetch(SHEETS_URL, {
         method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
       });
-
-      // Apps Script devuelve 200 con redirect; si no lanza error, consideramos éxito
-      if (res.status !== 0 && !res.ok && res.type !== 'opaque') throw new Error(`HTTP ${res.status}`);
+      // Si no lanzó excepción, consideramos éxito
 
       document.getElementById('formContent').style.display = 'none';
       document.getElementById('successScreen').classList.add('show');
