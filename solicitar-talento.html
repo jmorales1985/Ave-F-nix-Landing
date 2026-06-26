@@ -443,11 +443,10 @@
 
 <script>
   // ─────────────────────────────────────────────
-  // CONFIGURACIÓN SUPABASE
-  // Reemplace estos dos valores con los suyos
+  // CONFIGURACIÓN GOOGLE SHEETS
+  // Pegue aquí la URL de su Apps Script deployment
   // ─────────────────────────────────────────────
-  const SUPABASE_URL    = 'https://TU_PROJECT_ID.supabase.co';
-  const SUPABASE_ANON_KEY = 'TU_ANON_KEY';
+  const SHEETS_URL = 'https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec';
   // ─────────────────────────────────────────────
 
   function showToast(msg) {
@@ -511,18 +510,15 @@
     };
 
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/solicitudes_talento`, {
+      // Google Apps Script no acepta Content-Type: application/json en modo no-cors
+      // usamos no-cors + FormData workaround vía JSON en body de texto plano
+      const res = await fetch(SHEETS_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey':        SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Prefer':        'return=minimal',
-        },
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // Apps Script devuelve 200 con redirect; si no lanza error, consideramos éxito
+      if (res.status !== 0 && !res.ok && res.type !== 'opaque') throw new Error(`HTTP ${res.status}`);
 
       document.getElementById('formContent').style.display = 'none';
       document.getElementById('successScreen').classList.add('show');
