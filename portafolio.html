@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio — Inversiones Ave Fénix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #C9993A;
+      --gold-light:  #E5B84A;
+      --gold-dim:    #7A5A1E;
+      --dark:        #0B0D13;
+      --dark-card:   #111420;
+      --dark-border: #1E2233;
+      --text:        #D4D8E8;
+      --text-muted:  #6B7294;
+      --white:       #F0F2FA;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(11,13,19,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--dark); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 160px 5vw 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 600;
+      line-height: 1.0;
+      color: var(--white);
+    }
+    .hero-title em { font-style: italic; color: var(--gold-light); }
+    .hero-subtitle {
+      font-size: 0.95rem; color: var(--text-muted);
+      max-width: 38ch; margin-top: 1.5rem; line-height: 1.75;
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; align-self: end;
+    }
+    .stat-block { border-left: 2px solid var(--gold-dim); padding-left: 1.2rem; }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--gold-light); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 0.3rem;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      padding: 2.5rem 5vw;
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .filter-btn {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--dark-border);
+      background: transparent; color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--gold); color: var(--gold);
+    }
+    .filter-btn.active { background: rgba(201,153,58,0.08); }
+
+    /* ── CASES GRID ── */
+    .cases-section { padding: 5rem 5vw; }
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* card base */
+    .case-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 2.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .case-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,153,58,0.04) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .case-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+    .case-card:hover::before { opacity: 1; }
+
+    /* layout variants */
+    .card-wide   { grid-column: span 7; }
+    .card-narrow { grid-column: span 5; }
+    .card-third  { grid-column: span 4; }
+    .card-half   { grid-column: span 6; }
+    .card-full   { grid-column: span 12; }
+
+    .card-industry {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.25rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600;
+      color: var(--white); line-height: 1.2;
+    }
+    .card-description {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.7; flex: 1;
+    }
+    .card-results {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 0.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--dark-border);
+    }
+    .result-item { }
+    .result-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; color: var(--gold-light); line-height: 1;
+    }
+    .result-label {
+      font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .card-tags {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;
+    }
+    .tag {
+      font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--dark-border);
+      color: var(--text-muted);
+    }
+
+    /* featured card accent */
+    .card-featured { border-color: var(--gold-dim); }
+    .card-featured .card-title { font-size: 2.2rem; }
+    .featured-badge {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      background: rgba(201,153,58,0.15);
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+    }
+
+    /* ── TESTIMONIAL STRIP ── */
+    .testimonial-strip {
+      padding: 5rem 5vw;
+      background: var(--dark-card);
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .strip-label {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 3rem;
+    }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-style: italic;
+      color: var(--white); line-height: 1.6; margin-bottom: 1.5rem;
+    }
+    .testimonial-quote::before { content: '"'; color: var(--gold); font-size: 1.5rem; }
+    .testimonial-quote::after  { content: '"'; color: var(--gold); font-size: 1.5rem; }
+    .testimonial-author { font-size: 0.78rem; color: var(--text-muted); }
+    .testimonial-author strong { color: var(--text); display: block; margin-bottom: 0.15rem; }
+
+    /* ── INDUSTRIES ── */
+    .industries-section { padding: 5rem 5vw; }
+    .section-header { margin-bottom: 3rem; }
+    .section-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 600; color: var(--white);
+    }
+    .industries-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--dark-border); }
+    .industry-cell {
+      background: var(--dark);
+      padding: 2rem 1.75rem;
+      transition: background 0.2s;
+    }
+    .industry-cell:hover { background: var(--dark-card); }
+    .industry-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .industry-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--white); margin-bottom: 0.4rem;
+    }
+    .industry-count { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 7rem 5vw;
+      text-align: center;
+      border-top: 1px solid var(--dark-border);
+    }
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 600; color: var(--white);
+      max-width: 20ch; margin: 0 auto 1.5rem;
+    }
+    .cta-title em { font-style: italic; color: var(--gold-light); }
+    .cta-sub {
+      font-size: 0.9rem; color: var(--text-muted);
+      max-width: 45ch; margin: 0 auto 2.5rem;
+    }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.9rem 2.2rem;
+      background: var(--gold); color: var(--dark);
+      border: none; cursor: pointer; text-decoration: none;
+      font-family: 'Inter', sans-serif; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-secondary {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.9rem 2.2rem;
+      background: transparent; color: var(--text);
+      border: 1px solid var(--dark-border); cursor: pointer;
+      text-decoration: none; font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--dark-border);
+      font-size: 0.72rem; color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; color: var(--gold); letter-spacing: 0.12em; }
+    footer nav { display: flex; gap: 1.5rem; }
+    footer nav a { color: var(--text-muted); text-decoration: none; }
+    footer nav a:hover { color: var(--gold); }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding-top: 120px; }
+      .hero-stats { grid-template-columns: repeat(3,1fr); }
+      .card-wide, .card-narrow, .card-third, .card-half { grid-column: span 12; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .industries-grid { grid-template-columns: repeat(2,1fr); }
+      nav .nav-links { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Inversiones Ave Fénix</a>
+  <ul class="nav-links">
+    <li><a href="index.html#servicios">Servicios</a></li>
+    <li><a href="index.html#proceso">Proceso</a></li>
+    <li><a href="index.html#nosotros">Nosotros</a></li>
+    <li><a href="portafolio.html" style="color:var(--gold)">Portafolio</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+  <a class="nav-cta" href="index.html#contacto">Consulta Gratis</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero reveal">
+  <div>
+    <p class="hero-eyebrow">Nuestro Portafolio</p>
+    <h1 class="hero-title">Talento que<br><em>transforma</em><br>empresas</h1>
+    <p class="hero-subtitle">
+      Cada proceso de selección es una historia distinta. Aquí compartimos los resultados
+      que hemos logrado junto a nuestros clientes en Costa Rica.
+    </p>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-block">
+      <div class="stat-number">120+</div>
+      <div class="stat-label">Posiciones cubiertas</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">35</div>
+      <div class="stat-label">Empresas atendidas</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">93%</div>
+      <div class="stat-label">Retención a 12 meses</div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar reveal">
+  <button class="filter-btn active" onclick="filterCards('all', this)">Todos los casos</button>
+  <button class="filter-btn" onclick="filterCards('manufactura', this)">Manufactura</button>
+  <button class="filter-btn" onclick="filterCards('logistica', this)">Logística</button>
+  <button class="filter-btn" onclick="filterCards('servicios', this)">Servicios</button>
+  <button class="filter-btn" onclick="filterCards('alimentos', this)">Alimentos & Retail</button>
+  <button class="filter-btn" onclick="filterCards('tecnologia', this)">Tecnología</button>
+</div>
+
+<!-- CASES GRID -->
+<section class="cases-section">
+  <div class="cases-grid" id="casesGrid">
+
+    <!-- 1 — WIDE FEATURED -->
+    <div class="case-card card-wide card-featured reveal" data-cat="manufactura">
+      <span class="featured-badge">Caso destacado</span>
+      <p class="card-industry">Manufactura · Alajuela</p>
+      <h2 class="card-title">Expansión de planta:<br>40 operarios en 21 días</h2>
+      <p class="card-description">
+        Una empresa de manufactura de precisión necesitaba duplicar su turno nocturno antes del inicio
+        de temporada alta. Diseñamos un proceso de reclutamiento masivo con preselección por competencias
+        técnicas, ferias de empleo locales y onboarding acelerado coordinado con el área de RRHH del cliente.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">21</div><div class="result-label">Días de cobertura</div></div>
+        <div class="result-item"><div class="result-value">97%</div><div class="result-label">Asistencia semana 1</div></div>
+        <div class="result-item"><div class="result-value">0</div><div class="result-label">Paros por falta de personal</div></div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Reclutamiento masivo</span>
+        <span class="tag">Operativo</span>
+        <span class="tag">Urgente</span>
+      </div>
+    </div>
+
+    <!-- 2 — NARROW -->
+    <div class="case-card card-narrow reveal" data-cat="alimentos">
+      <p class="card-industry">Alimentos & Retail · Heredia</p>
+      <h2 class="card-title">Panadería Musmanni — Cobertura regional</h2>
+      <p class="card-description">
+        Reclutamiento de personal de producción y atención al cliente para sucursales
+        en la zona norte de Heredia, con énfasis en candidatos con vocación de servicio
+        y disponibilidad de horarios rotativos.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">18</div><div class="result-label">Posiciones cubiertas</div></div>
+        <div class="result-item"><div class="result-value">14</div><div class="result-label">Días promedio</div></div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Servicio al cliente</span>
+        <span class="tag">Producción</span>
+      </div>
+    </div>
+
+    <!-- 3 — THIRD -->
+    <div class="case-card card-third reveal" data-cat="logistica">
+      <p class="card-industry">Logística · San José</p>
+      <h2 class="card-title">Flotilla de conductores para distribuidora</h2>
+      <p class="card-description">
+        Búsqueda y verificación de conductores con licencia C y experiencia
+        en reparto urbano, incluyendo validación de antecedentes y referencias laborales.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">12</div><div class="result-label">Conductores activos</div></div>
+      </div>
+      <div class="card-tags"><span class="tag">Logística</span><span class="tag">Verificación</span></div>
+    </div>
+
+    <!-- 4 — THIRD -->
+    <div class="case-card card-third reveal" data-cat="servicios">
+      <p class="card-industry">Servicios · Zona Central</p>
+      <h2 class="card-title">Equipo de limpieza corporativa</h2>
+      <p class="card-description">
+        Formación de equipo de 8 personas para servicio de limpieza en edificio corporativo,
+        con inducción y protocolos de seguridad personalizados según requerimientos del cliente.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">100%</div><div class="result-label">Retención 6 meses</div></div>
+      </div>
+      <div class="card-tags"><span class="tag">Servicios generales</span></div>
+    </div>
+
+    <!-- 5 — THIRD -->
+    <div class="case-card card-third reveal" data-cat="tecnologia">
+      <p class="card-industry">Tecnología · Remoto / San José</p>
+      <h2 class="card-title">Soporte técnico bilingüe</h2>
+      <p class="card-description">
+        Reclutamiento de agentes de soporte técnico nivel 1 con inglés conversacional
+        para empresa de software SaaS con clientes en Norteamérica.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">8</div><div class="result-label">Agentes colocados</div></div>
+      </div>
+      <div class="card-tags"><span class="tag">Bilingüe</span><span class="tag">TI</span></div>
+    </div>
+
+    <!-- 6 — HALF -->
+    <div class="case-card card-half reveal" data-cat="manufactura">
+      <p class="card-industry">Manufactura · Cartago</p>
+      <h2 class="card-title">Técnicos de mantenimiento industrial</h2>
+      <p class="card-description">
+        Identificación de técnicos electromecánicos con experiencia en líneas de producción automatizadas.
+        El proceso incluyó pruebas técnicas escritas y evaluación práctica en sitio, coordinadas con
+        el jefe de mantenimiento del cliente.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">5</div><div class="result-label">Técnicos activos</div></div>
+        <div class="result-item"><div class="result-value">28</div><div class="result-label">Días de proceso</div></div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Técnico especializado</span>
+        <span class="tag">Evaluación práctica</span>
+      </div>
+    </div>
+
+    <!-- 7 — HALF -->
+    <div class="case-card card-half reveal" data-cat="logistica">
+      <p class="card-industry">Logística & Comercio · Alajuela</p>
+      <h2 class="card-title">Personal de bodega y picking masivo</h2>
+      <p class="card-description">
+        Cobertura de 25 posiciones de bodega para temporada navideña en operación logística
+        de alto volumen. Proceso diseñado para cumplir en menos de 10 días hábiles con perfil
+        de disponibilidad inmediata.
+      </p>
+      <div class="card-results">
+        <div class="result-item"><div class="result-value">25</div><div class="result-label">Posiciones</div></div>
+        <div class="result-item"><div class="result-value">9</div><div class="result-label">Días hábiles</div></div>
+        <div class="result-item"><div class="result-value">88%</div><div class="result-label">Permanencia full temporada</div></div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Temporal</span><span class="tag">Alta rotación</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonial-strip">
+  <p class="strip-label">Lo que dicen nuestros clientes</p>
+  <div class="testimonials-grid">
+    <div class="reveal">
+      <p class="testimonial-quote">
+        El equipo de Ave Fénix entendió exactamente qué perfil necesitábamos. Nos presentaron candidatos
+        que no solo cumplían los requisitos técnicos sino que encajaban con nuestra cultura.
+      </p>
+      <div class="testimonial-author">
+        <strong>Gerente de RRHH</strong>
+        Empresa de manufactura, Alajuela
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="testimonial-quote">
+        Gracias a su apoyo pudimos abrir dos sucursales nuevas sin interrupciones. El proceso fue
+        transparente y rápido. Definitivamente los volvería a contratar.
+      </p>
+      <div class="testimonial-author">
+        <strong>Director de Operaciones</strong>
+        Cadena de servicios, Zona Central
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="testimonial-quote">
+        Lo que más valoramos fue su honestidad. Cuando un candidato no era el indicado,
+        lo dijeron claro. Eso genera confianza real.
+      </p>
+      <div class="testimonial-author">
+        <strong>Propietario</strong>
+        PYME comercial, Heredia
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries-section">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Sectores de experiencia</p>
+    <h2 class="section-title">Donde operamos con mayor profundidad</h2>
+  </div>
+  <div class="industries-grid reveal">
+    <div class="industry-cell">
+      <div class="industry-icon">🏭</div>
+      <div class="industry-name">Manufactura</div>
+      <div class="industry-count">Operarios, técnicos, supervisores</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🚚</div>
+      <div class="industry-name">Logística</div>
+      <div class="industry-count">Bodega, distribución, transporte</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🥐</div>
+      <div class="industry-name">Alimentos & Retail</div>
+      <div class="industry-count">Producción, atención al cliente</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🧹</div>
+      <div class="industry-name">Servicios Generales</div>
+      <div class="industry-count">Limpieza, mantenimiento, seguridad</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">💻</div>
+      <div class="industry-name">Tecnología</div>
+      <div class="industry-count">Soporte técnico, TI, bilingüe</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🏗️</div>
+      <div class="industry-name">Construcción</div>
+      <div class="industry-count">Operadores, maestros de obra</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🏥</div>
+      <div class="industry-name">Salud & Bienestar</div>
+      <div class="industry-count">Asistentes, personal de apoyo</div>
+    </div>
+    <div class="industry-cell">
+      <div class="industry-icon">🌾</div>
+      <div class="industry-name">Agroindustria</div>
+      <div class="industry-count">Cosecha, procesamiento, campo</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+  <h2 class="cta-title">¿Listo para escribir su propio <em>caso de éxito</em>?</h2>
+  <p class="cta-sub">
+    Cuéntenos su desafío de talento. En 24 horas tendrá una propuesta concreta,
+    sin compromisos ni costos iniciales.
+  </p>
+  <div class="cta-buttons">
+    <a class="btn-primary" href="index.html#contacto">Agendar Consulta Gratuita</a>
+    <a class="btn-secondary" href="index.html#servicios">Ver Servicios</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Inversiones Ave Fénix S.A.</span>
+  <nav>
+    <a href="index.html#servicios">Servicios</a>
+    <a href="portafolio.html">Portafolio</a>
+    <a href="index.html#nosotros">Nosotros</a>
+    <a href="index.html#contacto">Contacto</a>
+  </nav>
+  <span>© 2025 · Todos los derechos reservados</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Filter
+  function filterCards(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.case-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
