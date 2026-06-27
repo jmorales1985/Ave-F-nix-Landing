@@ -642,32 +642,42 @@
       btn.classList.add('loading');
 
       try {
-        // Convert file to base64
-        const base64 = await fileToBase64(selectedFile);
+        const nombre    = document.getElementById('nombre').value.trim();
+        const direccion = document.getElementById('direccion').value.trim();
+        const telefono  = document.getElementById('telefono').value.trim();
+        const area      = document.getElementById('area').value;
+        const fecha     = new Date().toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' });
+        const cvNombre  = selectedFile ? selectedFile.name : '';
 
-        const payload = {
-          nombre:    document.getElementById('nombre').value.trim(),
-          direccion: document.getElementById('direccion').value.trim(),
-          telefono:  document.getElementById('telefono').value.trim(),
-          area:      document.getElementById('area').value,
-          cv_nombre: selectedFile.name,
-          cv_tipo:   selectedFile.type,
-          cv_base64: base64,
-          fecha:     new Date().toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' })
-        };
+        // Usar FormData para máxima compatibilidad con Apps Script
+        const form = new FormData();
+        form.append('nombre',    nombre);
+        form.append('direccion', direccion);
+        form.append('telefono',  telefono);
+        form.append('area',      area);
+        form.append('fecha',     fecha);
+        form.append('cv_nombre', cvNombre);
+
+        // Enviar CV como base64 solo si el archivo es menor a 3MB
+        if (selectedFile && selectedFile.size <= 3 * 1024 * 1024) {
+          const base64 = await fileToBase64(selectedFile);
+          form.append('cv_base64', base64);
+          form.append('cv_tipo',   selectedFile.type);
+        } else if (selectedFile) {
+          form.append('cv_base64', '');
+          form.append('cv_tipo',   selectedFile.type);
+          form.append('cv_nota',   'Archivo mayor a 3MB - no se adjuntó automáticamente');
+        }
 
         await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(payload)
+          body: form
         });
 
-        // no-cors = respuesta opaca, asumimos éxito si no hay excepción
         alertEl.textContent = '✓ ¡Postulación enviada con éxito! Revisá tu WhatsApp — te contactaremos pronto.';
         alertEl.classList.add('alert', 'alert-success', 'show');
 
-        // Reset form
         ['nombre','direccion','telefono'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('area').value = '';
         removeFile();
